@@ -1,33 +1,52 @@
 import function as func
 import csv
+import os
+import dotenv
 
-X0 = -3.00 * (10**(-13))
-Y0 = 1.6 * (10**(-14))
-VX0 = 0
-VY0 = 0
-FX0=0
-FY0=0
-AX0=0
-AY0=0
 
-AlphaParticle = func.AlphaParticle(X0, Y0, VX0, VY0, FX0, FY0, AX0, AY0)
-GoldParticle = func.GoldNucleus()
 
-csv_file_path = 'data.csv'
+def sim(i):
+  dotenv.load_dotenv()
 
-with open(csv_file_path, 'w', newline='') as csvfile:
-  csv_writer = csv.writer(csvfile)
-  data = ["x_position", "y_position", "x_velocity", "y_velocity", "x_force", "y_force", "x_acceleration", "y_acceleration"]
-  csv_writer.writerows([data])
-  for i in range(0, 15):
-    AlphaParticle.get_Vx()
-    AlphaParticle.get_Vy()
-    AlphaParticle.get_Ax()
-    AlphaParticle.get_Ay()
-    AlphaParticle.get_x()
-    AlphaParticle.get_y()
-    AlphaParticle.get_Fx()
-    AlphaParticle.get_Fy()
-    data = AlphaParticle.updated_values()
+  # Load constants
+  K = float(os.environ.get("K"))
+  Q_1 = float(os.environ.get("Q_1"))
+  Q_2 = float(os.environ.get("Q_2"))
+  M = float(os.environ.get("M"))
+  T = float(os.environ.get("T"))
+  KE_intial = float(os.environ.get("KE_intial"))
 
-csv_writer.writerows([data])
+
+
+  # Initial conditions
+  X0 = -3.00e-13
+  Y0 = 1.6e-14
+  VX0 = 0.0
+  VY0 = 0.0
+  FX0 = 0.0
+  FY0 = 0.0
+  AX0 = 0.0
+  AY0 = 0.0
+
+  # Initialize particles
+  AlphaParticle = func.AlphaParticle(X0, i*Y0, VX0, VY0, FX0, FY0, AX0, AY0, KE_intial, M)
+  GoldParticle = func.GoldNucleus()
+
+  # Prepare CSV output
+  csv_file_path = 'data.csv'
+
+  with open(csv_file_path, 'w', newline='') as csvfile:
+      csv_writer = csv.writer(csvfile)
+      header = ["x_position", "y_position", "x_velocity", "y_velocity", "x_force", "y_force", "x_acceleration", "y_acceleration"]
+      csv_writer.writerow(header)
+      AlphaParticle.gen_V_intial()
+      print(AlphaParticle.Vx, AlphaParticle.Vy)
+      for i in range(0, 30):
+          AlphaParticle.step()
+          data = AlphaParticle.updated_values()
+          csv_writer.writerow(data)
+
+  scattering_angle = AlphaParticle.get_scattering_angle()
+  return scattering_angle
+  
+
