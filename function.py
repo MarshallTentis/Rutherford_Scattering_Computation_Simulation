@@ -50,11 +50,17 @@ class AlphaParticle:
         self.X += self.Vx * T + 0.5 * self.prev_Ax * T**2
         self.Y += self.Vy * T + 0.5 * self.prev_Ay * T**2
 
-    def step(self):
+    def step(self, T_0, K):
         self.update_force()
         self.update_acceleration()
         self.update_velocity()
         self.update_position()
+
+          # Dynamically adjust the time step based on the distance to the nucleus
+        distance = math.sqrt(self.X**2 + self.Y**2)
+        K = 0.01  # Adjust this factor to control how quickly the time step decays
+        T = T_0 * math.exp(-K * distance)  # Exponential decay
+        return T
 
     def updated_values(self):
         return [self.X, self.Y, self.Vx, self.Vy, self.Fx, self.Fy, self.Ax, self.Ay]

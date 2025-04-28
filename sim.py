@@ -5,7 +5,7 @@ import dotenv
 
 
 
-def sim(i):
+def sim(i=1):
   dotenv.load_dotenv()
 
   # Load constants
@@ -28,6 +28,8 @@ def sim(i):
   AX0 = 0.0
   AY0 = 0.0
 
+  expo_factor = 2
+
   # Initialize particles
   AlphaParticle = func.AlphaParticle(X0, i*Y0, VX0, VY0, FX0, FY0, AX0, AY0, KE_intial, M)
   GoldParticle = func.GoldNucleus()
@@ -41,10 +43,12 @@ def sim(i):
       csv_writer.writerow(header)
       AlphaParticle.gen_V_intial()
       print(AlphaParticle.Vx, AlphaParticle.Vy)
-      for i in range(0, 30):
-          AlphaParticle.step()
+      for i in range(0, 100):
+          T = AlphaParticle.step(T, expo_factor)
           data = AlphaParticle.updated_values()
+          print(data)
           csv_writer.writerow(data)
+      
 
   scattering_angle = AlphaParticle.get_scattering_angle()
   return scattering_angle

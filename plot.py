@@ -21,11 +21,22 @@ nucleus = ax.plot(0, 0, 'yo', markersize=30)[0]  # BIG yellow dot
 # Create the alpha particle
 particle, = ax.plot([], [], 'ro', markersize=8)  # Red moving particle
 
+
+
 # Set nice limits around the data
 x_min = df['x_position'].min()
+if x_min > 0:
+    x_min = 0
 x_max = df['x_position'].max()
+if x_max < 0:
+    x_max = 0
 y_min = df['y_position'].min()
+if y_min > 0:
+    y_min = 0
 y_max = df['y_position'].max()
+if y_max < 0:
+    y_max = 0
+
 
 padding = abs(x_min) * 0.3  # Add 30% padding around
 ax.set_xlim(x_min - padding, x_max + padding)
