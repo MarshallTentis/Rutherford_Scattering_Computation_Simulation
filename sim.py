@@ -20,7 +20,7 @@ def sim(i=1):
 
   # Initial conditions
   X0 = -3.00e-13
-  Y0 = 1.6e-14
+  Y0 = i*(1.6e-14)
   VX0 = 0.0
   VY0 = 0.0
   FX0 = 0.0
@@ -31,7 +31,7 @@ def sim(i=1):
   expo_factor = 0
 
   # Initialize particles
-  AlphaParticle = func.AlphaParticle(X0, i*Y0, VX0, VY0, FX0, FY0, AX0, AY0, KE_intial, M)
+  AlphaParticle = func.AlphaParticle(X0, Y0, VX0, VY0, FX0, FY0, AX0, AY0, KE_intial, M)
   GoldParticle = func.GoldNucleus()
 
   # Prepare CSV output
@@ -50,7 +50,7 @@ def sim(i=1):
           csv_writer.writerow(data)
       
 
-  scattering_angle = AlphaParticle.get_scattering_angle()
+  scattering_angle = AlphaParticle.get_scattering_angle(Y0)
   return scattering_angle
   
 
