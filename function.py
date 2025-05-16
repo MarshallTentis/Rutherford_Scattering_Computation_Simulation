@@ -74,6 +74,11 @@ class AlphaParticle:
     def get_scattering_angle(self, Y0):
         scattering_angle = math.atan2(self.Y - Y0, self.X)
         return scattering_angle
+    
+    def get_velocity_angle(self):
+        scattering_angle = math.atan2(self.Vy, self.Vx)
+        return scattering_angle
+    
 
 
 class GoldNucleus:

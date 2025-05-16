@@ -46,11 +46,12 @@ def sim(i=1):
       for i in range(0, 200):
           T = AlphaParticle.step(T, expo_factor)
           data = AlphaParticle.updated_values()
-          print(data)
           csv_writer.writerow(data)
       
 
   scattering_angle = AlphaParticle.get_scattering_angle(Y0)
+  test = AlphaParticle.get_velocity_angle()
+  print(test)
   return scattering_angle
   
 
