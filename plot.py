@@ -62,4 +62,4 @@ try:
     plt.show()
 except:
     print("Interactive display failed. Saving animation instead.")
-    ani.save('rutherford.gif', writer='pillow', fps=10)
+    ani.save('rutherford.gif', writer='pillow', fps=5)

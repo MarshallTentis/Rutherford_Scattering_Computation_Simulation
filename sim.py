@@ -13,10 +13,10 @@ def sim(i=1):
   Q_1 = float(os.environ.get("Q_1"))
   Q_2 = float(os.environ.get("Q_2"))
   M = float(os.environ.get("M"))
-  T = float(os.environ.get("T"))
+  # T = float(os.environ.get("T"))
   KE_intial = float(os.environ.get("KE_intial"))
 
-
+  T = 5
 
   # Initial conditions
   X0 = -3.00e-13
@@ -28,7 +28,7 @@ def sim(i=1):
   AX0 = 0.0
   AY0 = 0.0
 
-  expo_factor = 2
+  expo_factor = 0
 
   # Initialize particles
   AlphaParticle = func.AlphaParticle(X0, i*Y0, VX0, VY0, FX0, FY0, AX0, AY0, KE_intial, M)
@@ -43,7 +43,7 @@ def sim(i=1):
       csv_writer.writerow(header)
       AlphaParticle.gen_V_intial()
       print(AlphaParticle.Vx, AlphaParticle.Vy)
-      for i in range(0, 100):
+      for i in range(0, 200):
           T = AlphaParticle.step(T, expo_factor)
           data = AlphaParticle.updated_values()
           print(data)
